@@ -27,12 +27,13 @@
 			$("#jobClass").blur(function(){
                 $.post("${ctx}/sys/quartz/jobClassIsExist", {"clazz":$("#jobClass").val()},function(data){
                     if(data.status = 'success'){
-                        var $methods = data.methods;
+                        var $methods = JSON.parse(data).methods;
                         var $options = '';
                         if(null!=$methods && ''!=$methods){
                             for(var i in $methods){
                                 $options= $options + "<option value=\""+$methods[i]+"\">"+$methods[i]+"</option>";
                             }
+                            $("#jobMethod").empty();
                             $("#jobMethod").html($options);
                         }
                     }else{
@@ -90,8 +91,8 @@
 			<label class="control-label">目标方法:</label>
 			<div class="controls">
                 <%--<form:input path="jobMethod" htmlEscape="false" maxlength="50" id="jobMethod"/>--%>
-                <form:select path="jobMethod" htmlEscape="false" maxLength="50" id="jobMethod" >
-                    <option value="methods">methods</option>
+                <form:select path="jobMethod" htmlEscape="false" maxLength="50" id="jobMethod">
+                    <option value="">请选择对应的方法</option>
 
                 </form:select>
                 <span class="help-inline"><font color="red">*</font></span>
