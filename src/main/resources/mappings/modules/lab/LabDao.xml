@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxb.eams.modules.lab.dao.LabDao">
+    
+	<sql id="labColumns">
+		a.id AS "id",
+		a.lab_name AS "labName",
+		a.lab_id AS "labId",
+		a.lab_principal AS "labPrincipal",
+		a.lab_band_width_toal AS "labBandWidthToal",
+		a.lab_cabinet_count AS "labCabinetCount",
+		a.lab_birthday AS "labBirthday",
+		a.lab_expireday AS "labExpireday",
+		a.lab_computer_count AS "labComputerCount",
+		a.lab_address AS "labAddress",
+		a.lab_type AS "labType",
+		a.lab_desk_count AS "labDeskCount",
+		a.lab_start_ip AS "labStartIp",
+		a.lab_end_ip AS "labEndIp",
+		a.remarks AS "remarks",
+		a.create_by AS "createBy.id",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="labJoins">
+	</sql>
+    
+	<select id="get" resultType="Lab">
+		SELECT 
+			<include refid="labColumns"/>
+		FROM t_labs a
+		<include refid="labJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Lab">
+		SELECT 
+			<include refid="labColumns"/>
+		FROM t_labs a
+		<include refid="labJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="labName != null and labName != ''">
+				AND a.lab_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{labName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{labName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{labName},'%')</if>
+			</if>
+			<if test="labId != null and labId != ''">
+				AND a.lab_id LIKE 
+					<if test="dbName == 'oracle'">'%'||#{labId}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{labId}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{labId},'%')</if>
+			</if>
+			<if test="labPrincipal != null and labPrincipal != ''">
+				AND a.lab_principal = #{labPrincipal}
+			</if>
+			<if test="labType != null and labType != ''">
+				AND a.lab_type = #{labType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Lab">
+		SELECT 
+			<include refid="labColumns"/>
+		FROM t_labs a
+		<include refid="labJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert"  useGeneratedKeys="true">
+		INSERT INTO t_labs(
+            id,
+			lab_name,
+			lab_id,
+			lab_principal,
+			lab_band_width_toal,
+			lab_cabinet_count,
+			lab_birthday,
+			lab_expireday,
+			lab_computer_count,
+			lab_address,
+			lab_type,
+			lab_desk_count,
+			lab_start_ip,
+			lab_end_ip,
+			remarks,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			del_flag
+		) VALUES (
+		    #{id},
+			#{labName},
+			#{labId},
+			#{labPrincipal},
+			#{labBandWidthToal},
+			#{labCabinetCount},
+			#{labBirthday},
+			#{labExpireday},
+			#{labComputerCount},
+			#{labAddress},
+			#{labType},
+			#{labDeskCount},
+			#{labStartIp},
+			#{labEndIp},
+			#{remarks},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_labs SET 	
+			lab_name = #{labName},
+			lab_id = #{labId},
+			lab_principal = #{labPrincipal},
+			lab_band_width_toal = #{labBandWidthToal},
+			lab_cabinet_count = #{labCabinetCount},
+			lab_birthday = #{labBirthday},
+			lab_expireday = #{labExpireday},
+			lab_computer_count = #{labComputerCount},
+			lab_address = #{labAddress},
+			lab_type = #{labType},
+			lab_desk_count = #{labDeskCount},
+			lab_start_ip = #{labStartIp},
+			lab_end_ip = #{labEndIp},
+			remarks = #{remarks},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE t_labs SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,89 @@
+/**
+ * Copyright &copy; 2012-2016 <a href="https://github.com/thinkgem/jeesite">JeeSite</a> All rights reserved.
+ */
+package com.fxb.eams.modules.device.entity;
+
+import org.hibernate.validator.constraints.Length;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import com.fxb.eams.common.persistence.DataEntity;
+
+/**
+ * 设备信息Entity
+ * @author 方小白
+ * @version 2017-08-22
+ */
+public class Device extends DataEntity<Device> {
+	
+	private static final long serialVersionUID = 1L;
+	private String brand;		// 品牌/厂商
+	private String labId;		// lab_id
+	private String ip;		// ip地址
+	private String completed;		// 是否完整
+	private Date birthday;		// 启用时间
+	private String address;		// 具体位置信息
+	
+	public Device() {
+		super();
+	}
+
+	public Device(String id){
+		super(id);
+	}
+
+	@Length(min=0, max=255, message="品牌/厂商长度必须介于 0 和 255 之间")
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	
+	@Length(min=0, max=64, message="lab_id长度必须介于 0 和 64 之间")
+	public String getLabId() {
+		return labId;
+	}
+
+	public void setLabId(String labId) {
+		this.labId = labId;
+	}
+	
+	@Length(min=0, max=100, message="ip地址长度必须介于 0 和 100 之间")
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+	
+	@Length(min=0, max=1, message="是否完整长度必须介于 0 和 1 之间")
+	public String getCompleted() {
+		return completed;
+	}
+
+	public void setCompleted(String completed) {
+		this.completed = completed;
+	}
+	
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	
+	@Length(min=0, max=255, message="具体位置信息长度必须介于 0 和 255 之间")
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+}

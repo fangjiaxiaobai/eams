@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fxb.eams.modules.device.dao.CPUDao">
+    
+	<sql id="cPUColumns">
+		a.id AS "id",
+		a.device_id AS "deviceId",
+		a.brand AS "brand",
+		a.model AS "model",
+		a.cores_number AS "coresNumber",
+		a.kernalcode AS "kernalcode",
+		a.interface_type AS "interfaceType",
+		a.basic_frequency AS "basicFrequency",
+		a.l1_cache AS "l1Cache",
+		a.l2_cache AS "l2Cache",
+		a.l3_cache AS "l3Cache",
+		a.process_technology AS "processTechnology",
+		a.power AS "power",
+		a.support64 AS "support64",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="cPUJoins">
+	</sql>
+    
+	<select id="get" resultType="CPU">
+		SELECT 
+			<include refid="cPUColumns"/>
+		FROM t_cpu a
+		<include refid="cPUJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CPU">
+		SELECT 
+			<include refid="cPUColumns"/>
+		FROM t_cpu a
+		<include refid="cPUJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="brand != null and brand != ''">
+				AND a.brand = #{brand}
+			</if>
+			<if test="model != null and model != ''">
+				AND a.model = #{model}
+			</if>
+			<if test="coresNumber != null and coresNumber != ''">
+				AND a.cores_number = #{coresNumber}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CPU">
+		SELECT 
+			<include refid="cPUColumns"/>
+		FROM t_cpu a
+		<include refid="cPUJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO t_cpu(
+			id,
+			device_id,
+			brand,
+			model,
+			cores_number,
+			kernalcode,
+			interface_type,
+			basic_frequency,
+			l1_cache,
+			l2_cache,
+			l3_cache,
+			process_technology,
+			power,
+			support64,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{deviceId},
+			#{brand},
+			#{model},
+			#{coresNumber},
+			#{kernalcode},
+			#{interfaceType},
+			#{basicFrequency},
+			#{l1Cache},
+			#{l2Cache},
+			#{l3Cache},
+			#{processTechnology},
+			#{power},
+			#{support64},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE t_cpu SET 	
+			device_id = #{deviceId},
+			brand = #{brand},
+			model = #{model},
+			cores_number = #{coresNumber},
+			kernalcode = #{kernalcode},
+			interface_type = #{interfaceType},
+			basic_frequency = #{basicFrequency},
+			l1_cache = #{l1Cache},
+			l2_cache = #{l2Cache},
+			l3_cache = #{l3Cache},
+			process_technology = #{processTechnology},
+			power = #{power},
+			support64 = #{support64},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE t_cpu SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
