@@ -228,4 +228,23 @@ public class QuartzController {
         return json.toString();
     }
 
+    @RequestMapping("executeJob")
+    @ResponseBody
+    public String executeJob(JobEntity jobEntity){
+        JSONObject json = new JSONObject();
+        try {
+//            scheduler.triggerJob(JobKey.jobKey(jobEntity.getJobName(),jobEntity.getJobGroup()));
+
+            TriggerKey triggerKey=new TriggerKey(jobEntity.getTriggerName(), jobEntity.getTriggerGroup());
+            Trigger trigger=scheduler.getTrigger(triggerKey);
+            scheduler.triggerJob(JobKey.jobKey(jobEntity.getJobName(),jobEntity.getJobGroup()),trigger.getJobDataMap());
+
+            json.put("statuts","success");
+        } catch (SchedulerException e) {
+            json.put("status" ,"false");
+        }
+        return json.toString();
+
+    }
+
 }
