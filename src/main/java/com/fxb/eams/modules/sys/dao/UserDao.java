@@ -72,4 +72,5 @@ public interface UserDao extends CrudDao<User> {
 	 */
 	public int updateUserInfo(User user);
 
+    List<User> findUserByLikeNameOREmail(String search);
 }

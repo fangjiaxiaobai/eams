@@ -59,9 +59,27 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="device">
 			<tr>
-				<td><a href="${ctx}/device/device/form?id=${device.id}">
+                <td>
+                        ${device.brand}
+                </td>
+                <td>
+                        ${device.lab.labName}
+                </td>
+                <td>
+                        ${device.address}
+                </td>
+                <td>
+                        ${device.ip}
+                </td>
+                <td>
+                        ${fns:getDictValue(device.completed, 'yes_no', '0' )}
+                </td>
+                <td><a href="${ctx}/device/device/form?id=${device.id}">
 					<fmt:formatDate value="${device.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</a></td>
+				<td>
+					${device.user.name}
+				</td>
 				<td>
 					${device.remarks}
 				</td>

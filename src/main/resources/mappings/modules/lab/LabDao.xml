@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxb.eams.modules.lab.dao.LabDao">
-    
+
 	<sql id="labColumns">
 		a.id AS "id",
 		a.lab_name AS "labName",
@@ -21,11 +21,20 @@
 		a.create_by AS "createBy.id",
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		u.name AS "user.name",
+        u.email AS "user.email",
+        u.phone AS "user.phone"
 	</sql>
-	
+
 	<sql id="labJoins">
+        LEFT JOIN sys_user u ON u.id=a.lab_principal
 	</sql>
+
+    <sql id="whereClause" >
+
+    </sql>
+
     
 	<select id="get" resultType="Lab">
 		SELECT 
@@ -161,5 +170,28 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
+
+    <select id="getLabByNameOrLabId" parameterType="Lab" resultType="Lab">
+        SELECT
+        <include refid="labColumns"/>
+        FROM t_labs a
+        <include refid="labJoins"/>
+        <where>
+            a.del_flag = #{DEL_FLAG_NORMAL}
+            <if test="labName!='' and labName!= null">
+                AND ( a.lab_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{labName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{labName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{labName},'%')</if>
+                or a.lab_id LIKE
+                <if test="dbName == 'oracle'">'%'||#{labId}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{labId}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{labId},'%')</if>
+                )
+            </if>
+
+        </where>
+
+    </select>
 	
 </mapper>

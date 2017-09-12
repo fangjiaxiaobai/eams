@@ -339,5 +339,14 @@
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>
-	
+
+    <!-- 通过姓名或者邮箱模糊查找用户-->
+    <select id="findUserByLikeNameOREmail" parameterType="String" resultType="User">
+        select * FROM sys_user where
+        name like
+        CONCAT('%', #{search}, '%')
+        or email LIKE
+        CONCAT('%', #{search}, '%')
+    </select>
+
 </mapper>

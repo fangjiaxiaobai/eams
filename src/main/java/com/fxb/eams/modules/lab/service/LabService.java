@@ -43,5 +43,8 @@ public class LabService extends CrudService<LabDao, Lab> {
 	public void delete(Lab lab) {
 		super.delete(lab);
 	}
-	
+
+    public List<Lab> getLabByNameOrLabId(Lab lab){
+	    return dao.getLabByNameOrLabId(lab);
+    }
 }

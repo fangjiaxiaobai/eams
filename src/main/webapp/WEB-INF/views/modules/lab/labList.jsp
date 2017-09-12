@@ -71,7 +71,7 @@
 					${lab.labId}
 				</td>
 				<td>
-					${lab.labPrincipal}
+					${lab.user.name}
 				</td>
 				<td>
 					${lab.labBandWidthToal}
@@ -104,8 +104,8 @@
 					${lab.remarks}
 				</td>
 				<shiro:hasPermission name="lab:lab:edit"><td>
-    				<a href="${ctx}/lab/lab/form?id=${lab.id}">修改</a>
-					<a href="${ctx}/lab/lab/delete?id=${lab.id}" onclick="return confirmx('确认要删除该实验室/教室/办公室吗？', this.href)">删除</a>
+    				<a href="${ctx}/lab/form?id=${lab.id}">修改</a>
+					<a href="${ctx}/lab/delete?id=${lab.id}" onclick="return confirmx('确认要删除该实验室/教室/办公室吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>
 		</c:forEach>

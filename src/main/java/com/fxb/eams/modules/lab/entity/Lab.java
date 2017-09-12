@@ -3,6 +3,7 @@
  */
 package com.fxb.eams.modules.lab.entity;
 
+import com.fxb.eams.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -30,6 +31,7 @@ public class Lab extends DataEntity<Lab> {
 	private int labDeskCount;		// 应有课桌数量
 	private String labStartIp;		// 起始ip
 	private String labEndIp;		// 结束ip
+    private User user;   //负责人
 	
 	public Lab() {
 		super();
@@ -152,5 +154,12 @@ public class Lab extends DataEntity<Lab> {
 	public void setLabEndIp(String labEndIp) {
 		this.labEndIp = labEndIp;
 	}
-	
+
+    public void setUser(User user){
+        this.user=user;
+    }
+
+    public User getUser(){
+        return user;
+    }
 }
