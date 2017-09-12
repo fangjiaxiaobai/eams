@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 
+import org.activiti.engine.impl.util.json.JSONArray;
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -369,4 +371,39 @@ public class UserController extends BaseController {
 //			}
 //		});
 //	}
+
+    @RequestMapping("getAllUserList")
+    @ResponseBody
+    public String getAllUserList(String search){
+
+        JSONArray ja = new JSONArray();
+         if (StringUtils.isNotBlank(search)) {List<User> userList = systemService.findUserByLikeNameOREmail(search);
+            for (User user : userList) {
+                JSONObject jo = new JSONObject();
+                jo.put("id",user.getId());
+                jo.put("name",user.getName());
+                jo.put("email",user.getEmail());
+                jo.put("phone",user.getPhone());
+                jo.put("text",user.getName()+"("+user.getPhone()+")");
+                ja.put(jo);
+            }
+        }
+        return ja.toString();
+    }
+
+    @RequestMapping("getUserByIdForNew")
+    @ResponseBody
+    public String getUserByIdForNew(String id){
+        JSONObject jo = new JSONObject();
+        if(null!=id) {
+            User user=systemService.getUser(id);
+            if(null!=user){
+                jo.put("id",user.getId());
+                jo.put("name",user.getName());
+                jo.put("phone",user.getPhone());
+                jo.put("text",user.getName()+"("+user.getPhone()+")");
+            }
+        }
+        return jo.toString();
+    }
 }

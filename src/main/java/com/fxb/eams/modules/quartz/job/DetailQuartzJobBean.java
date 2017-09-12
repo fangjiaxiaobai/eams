@@ -13,7 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @author fangxi on 2017/8/31 20:05.
+ * @author 方小白 on 2017/8/31 20:05.
  * @description
  */
 public class DetailQuartzJobBean extends QuartzJobBean{

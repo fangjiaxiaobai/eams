@@ -22,6 +22,58 @@
 					}
 				}
 			});
+
+            $("#principal").select2({
+                placeholder:"请选择",//文本框的提示信息
+                minimumInputLength:1,   //至少输入n个字符，才去加载数据
+//                dropdownParent: $("#inputForm"), //指定父元素
+                multiple: true,
+                theme: "bootstrap", // 设置主题为bootsharp的主题
+                ajax:{
+                    url:'${ctx}/sys/user/getAllUserList',
+                    dataType:"json",
+                    quietMillis:250,
+                    method:'post',
+                    data: function (params) {
+                        return {
+                            search: params,
+                        };
+                    },
+                    results: function (data) {
+                        return {
+                            results: data,
+                        };
+                    },
+                    cache: true,
+                },
+                formatInputTooShort: function (input, min) {
+                    return "请输入姓名或者邮箱";
+                },
+                // 选中回调
+                formatSelection  : function (repo) {
+                    $("#principal").val(repo.id);
+                    return repo.text;
+                }
+                // 初始化
+                ,initSelection : function (element, callback) {
+                    var id = $(element).val();
+                    if ($(element).val()!=="") {
+                        $.ajax("${ctx}/sys/user/getUserByIdForNew", {
+                            data: {
+                                id: id
+                            },
+                            dataType: "json"
+                        }).done(function(data) {
+                            var data = {id: data.id, text: data.text};
+                            callback(data);
+                        });
+                    }
+                },
+                formatResult:function(data){ //搜索框中的显示
+                    return '<div class="select2-user-result">' + data.name +"("+data.phone+")"+ '</div>'
+                }
+            });
+
 		});
 	</script>
 </head>
@@ -59,7 +111,8 @@
                     <div class="control-group">
                         <label class="control-label">负责人：</label>
                         <div class="controls">
-                            <form:input path="labPrincipal" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+                            <%--<form:input path="labPrincipal" htmlEscape="false" maxlength="64" class="input-xlarge select2" id="principal"/>--%>
+                            <input name="labPrincipal" htmlEscape="false" maxlength="64" class="input-xlarge" id="principal" value="${lab.labPrincipal}"/>
                         </div>
                     </div>
                 </td>

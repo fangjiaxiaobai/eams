@@ -28,8 +28,11 @@
 		<activiti.version>5.21.0</activiti.version>
 		
 		<!-- tools version setting -->
-		<slf4j.version>1.7.7</slf4j.version>
-		<commons-lang3.version>3.3.2</commons-lang3.version>
+		<!--   fxb (edit or add) log  -->
+        <slf4j.version>1.7.7</slf4j.version>
+        <logback.version></logback.version>
+
+        <commons-lang3.version>3.3.2</commons-lang3.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-codec.version>1.9</commons-codec.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
@@ -195,13 +198,13 @@
 			<version>${mysql.driver.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc14</artifactId>
-			<version>${oracle.driver.version}</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.oracle</groupId>-->
+			<!--<artifactId>ojdbc14</artifactId>-->
+			<!--<version>${oracle.driver.version}</version>-->
+			<!--<scope>system</scope>-->
+			<!--<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ojdbc14-10.2.0.4.0.jar</systemPath>-->
+		<!--</dependency>-->
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
@@ -404,7 +407,31 @@
 			<artifactId>jul-to-slf4j</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
-		<!-- LOGGING end -->
+
+        <!--   logback  -->
+        <!-- 提供了LogBack的核心功能，是另外两个组件的基础 -->
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <!-- 现了Slf4j的API，所以当想配合Slf4j使用时，需要将logback-classic加入classpath。 -->
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- 为了servlet环境，也就是web环境使用的 -->
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-access -->
+        <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-access</artifactId>
+        <version>1.2.3</version>
+        </dependency>
+		 <!--LOGGING end-->
 		
 		<!-- GENERAL UTILS begin -->
 		<dependency>

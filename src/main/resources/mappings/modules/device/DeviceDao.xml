@@ -15,10 +15,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
-	</sql>
+		a.del_flag AS "delFlag",
+        d.lab_name AS "lab.labName",
+        u.name AS "user.name"
+    </sql>
 	
 	<sql id="deviceJoins">
+        LEFT JOIN  t_labs d on d.id = a.lab_id
+        LEFT JOIN sys_user u on u.id = (select d.lab_principal from t_labs d where d.id = a.lab_id)
 	</sql>
     
 	<select id="get" resultType="Device">

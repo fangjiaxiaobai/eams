@@ -52,6 +52,18 @@
                 });
         }
 
+        // 手动执行一次任务
+        function executeJob(jobName,jobGroupName,triggerName,triggerGroupName){
+            alert("executeJob");
+            $.post("${ctx}/sys/quartz/executeJob",{"jobName":jobName,"jobGroup":jobGroupName,"triggerName":triggerName,"triggerGroup":triggerGroupName},
+                function(data){
+                    if(data.status = 'success'){
+                        alert("执行成功")
+                    }else{
+                        alert("操作失败，请刷新重新！");
+                    }
+                });
+        }
 
     </script>
 </head>
@@ -101,7 +113,8 @@
             <td>
                 <%--<a href="${ctx}/sys/quartz/form?id=${quartz.id}">修改</a>--%>
                 <a href="javaScript:void(0);" onclick="pauseJob('${jobInfo.jobName}','${jobInfo.jobGroup}');">暂停</a>
-                <a href="javaScript:void(0);" onclick="resumeJob('${jobInfo.jobName}','${jobInfo.jobGroup}');">运行</a>
+                <a href="javaScript:void(0);" onclick="resumeJob('${jobInfo.jobName}','${jobInfo.jobGroup}');">恢复运行</a>
+                <a href="javaScript:void(0);" onclick="executeJob('${jobInfo.jobName}','${jobInfo.jobGroup}','${jobInfo.triggerName}','${jobInfo.triggerGroup}');">手动运行</a>
                 <a href="javaScript:void(0);" onclick="deleteJob('${jobInfo.jobName}','${jobInfo.jobGroup}','${jobInfo.triggerName}','${jobInfo.triggerGroup}');">删除</a>
             </td>
             </shiro:hasPermission>

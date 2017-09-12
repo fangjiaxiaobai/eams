@@ -3,6 +3,8 @@
  */
 package com.fxb.eams.modules.device.entity;
 
+import com.fxb.eams.modules.lab.entity.Lab;
+import com.fxb.eams.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,6 +25,8 @@ public class Device extends DataEntity<Device> {
 	private String completed;		// 是否完整
 	private Date birthday;		// 启用时间
 	private String address;		// 具体位置信息
+    private Lab lab;
+    private User user;
 	
 	public Device() {
 		super();
@@ -85,5 +89,20 @@ public class Device extends DataEntity<Device> {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
+    public void setUser(User user){
+        this.user=user;
+    }
+
+    public User getUser(){
+        return user;
+    }
+
+    public void setLab(Lab lab){
+        this.lab=lab;
+    }
+
+    public Lab getLab(){
+        return lab;
+    }
 }

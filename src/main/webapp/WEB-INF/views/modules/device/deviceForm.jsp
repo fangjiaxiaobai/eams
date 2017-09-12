@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
@@ -23,16 +24,19 @@
 				}
 			});
 
-            $("#userId").select2({
+            $("#labId").select2({
                 placeholder:"请选择实验室",//文本框的提示信息
                 minimumInputLength:1,   //至少输入n个字符，才去加载数据
                 ajax:{
                     url:'${ctx}/lab/getLabByNameOrLabId',
                     dataType:"json",
                     quietMillis:250,
+                    delay:250,
+                    type:'post',
                     data: function (params) {
+                        debugger;
                         return {
-                            search: params,
+                            labName: params,
                         };
                     },
                     results: function (data) {
@@ -49,8 +53,7 @@
                 },
                 // 选中回调
                 formatSelection  : function (repo) {
-                    $("#userId").val(repo.id);
-
+                    $("#labId").val(repo.id);
                     return repo.text;
                 },
                 // 初始化
@@ -89,10 +92,7 @@
 		<div class="control-group">
 			<label class="control-label">实验室名称：</label>
 			<div class="controls">
-                <form:select path="labId" htmlEscape="false" class="input-xlarge" >
-                    <form:option value="" label="" />
-                    <%--<form:options items="" itemValue="" itemLabel="" />--%>
-                </form:select>
+                <input name="labId" htmlEscape="false" class="input-xlarge" id="labId" />
 			</div>
 		</div>
 		<div class="control-group">
@@ -104,7 +104,10 @@
 		<div class="control-group">
 			<label class="control-label">是否完整：</label>
 			<div class="controls">
-				<form:input path="completed" htmlEscape="false" maxlength="1" class="input-xlarge "/>
+                <form:select path="completed" htmlEscape="false" maxlength="1" class="input-xlarge">
+                    <form:option value="" label="" />
+                    <form:options itemValue="value" itemLabel="label" items="${fns:getDictList('yes_no')}" />
+                </form:select>
 			</div>
 		</div>
 		<div class="control-group">

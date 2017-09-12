@@ -6,6 +6,23 @@
 
 	<display-name>EAMS</display-name>
 
+    <filter>
+        <filter-name>encodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>encodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 	<!-- Context ConfigLocation -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -17,22 +34,7 @@
 	<listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>  
 	</listener>
-	<filter>
-		<filter-name>encodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-		<init-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+
 	
 	<!-- Apache Shiro -->
 	<filter>
@@ -178,6 +180,16 @@
 		<url-pattern>/servlet/validateCodeServlet</url-pattern>
 	</servlet-mapping>
 	
+    <!-- logback servlet -->
+    <servlet>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <servlet-class>ch.qos.logback.classic.ViewStatusMessagesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewStatusMessages</servlet-name>
+        <url-pattern>/lbClassicStatus</url-pattern>
+    </servlet-mapping>
+    
 	<!-- FineReport 
 	<servlet>
 		<servlet-name>ReportServer</servlet-name>

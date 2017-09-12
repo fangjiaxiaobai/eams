@@ -7,6 +7,8 @@ import com.fxb.eams.common.persistence.CrudDao;
 import com.fxb.eams.common.persistence.annotation.MyBatisDao;
 import com.fxb.eams.modules.lab.entity.Lab;
 
+import java.util.List;
+
 /**
  * 实验室/教室/办公室DAO接口
  * @author 方小白
@@ -14,5 +16,6 @@ import com.fxb.eams.modules.lab.entity.Lab;
  */
 @MyBatisDao
 public interface LabDao extends CrudDao<Lab> {
-	
+
+    List<Lab> getLabByNameOrLabId(Lab lab);
 }

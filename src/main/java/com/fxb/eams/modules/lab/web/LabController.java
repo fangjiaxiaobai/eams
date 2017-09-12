@@ -6,8 +6,13 @@ package com.fxb.eams.modules.lab.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fxb.eams.common.utils.CacheUtils;
+import com.fxb.eams.modules.sys.utils.UserUtils;
+import org.activiti.engine.impl.util.json.JSONArray;
 import org.activiti.engine.impl.util.json.JSONObject;
+import org.apache.log4j.spi.LoggerFactory;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +42,7 @@ public class LabController extends BaseController {
 
 	@Autowired
 	private LabService labService;
-	
+	private static Logger logger =org.slf4j.LoggerFactory.getLogger(LabController.class);
 	@ModelAttribute
 	public Lab get(@RequestParam(required=false) String id) {
 		Lab entity = null;
@@ -53,7 +58,7 @@ public class LabController extends BaseController {
 	@RequiresPermissions("lab:lab:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(Lab lab, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<Lab> page = labService.findPage(new Page<Lab>(request, response), lab); 
+		Page<Lab> page = labService.findPage(new Page<Lab>(request, response), lab);
 		model.addAttribute("page", page);
 		return "modules/lab/labList";
 	}
@@ -86,8 +91,20 @@ public class LabController extends BaseController {
 
 	@RequestMapping("getLabByNameOrLabId")
     @ResponseBody
-    public List<Lab> getLabByNameOrLabId(Lab lab, HttpServletResponse response){
-	    return this.labService.findList(lab);
+    public String getLabByNameOrLabId(Lab lab, HttpServletResponse response){
+
+        JSONArray ja = new JSONArray();
+        List <Lab> labs=this.labService.getLabByNameOrLabId(lab);
+        for (Lab lab1 : labs) {
+            JSONObject jo = new JSONObject();
+            jo.put("id",lab1.getId());
+            jo.put("labName",lab1.getLabName());
+            jo.put("labId",lab1.getLabId());
+            jo.put("text",lab1.getLabName()+"("+lab1.getLabId()+")");
+            ja.put(jo);
+        }
+
+        return ja.toString();
     }
 
     @ResponseBody
