@@ -71,6 +71,16 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findHardDriverByDeviceId" resultType="HardDriver">
+		SELECT
+			<include refid="hardDriverColumns"/>
+		FROM t_hard_driver a
+		<include refid="hardDriverJoins"/>
+		<where>
+			a.del_flag = 0 and a.device_id = #{device_id}
+		</where>
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO t_hard_driver(

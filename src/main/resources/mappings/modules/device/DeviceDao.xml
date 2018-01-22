@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fxb.eams.modules.device.dao.DeviceDao">
-    
+
+    <resultMap id="deviceResultMap" type="Device" >
+        <id column="id" property="id" jdbcType="VARCHAR" />
+
+        <!--<association property="user" column="p" javaType="User" select="">-->
+        <!--</association>-->
+        <!--<association property="lab" column="lab_id" jdbcType="VARCHAR" select="com.fxb.eams.modules.lab.dao.LabDao.get">-->
+        <!--</association>-->
+
+        <collection property="cpus" column="id" select="com.fxb.eams.modules.device.dao.CPUDao.findCPUByDeviceId" ofType="CPU">
+        </collection>
+        <collection property="keyboard" column="id" select="com.fxb.eams.modules.device.dao.KeyboardDao.findKeyBoardByDeviceId" ofType="CPU">
+        </collection>
+        <collection property="hardDrivers" column="id" select="com.fxb.eams.modules.device.dao.HardDriverDao.findHardDriverByDeviceId" ofType="CPU">
+        </collection>
+        <collection property="memorys" column="id" select="com.fxb.eams.modules.device.dao.MemoryDao.findMemoryByDeviceId" ofType="CPU">
+        </collection>
+
+
+    </resultMap>
+
 	<sql id="deviceColumns">
 		a.id AS "id",
 		a.brand AS "brand",
@@ -33,7 +53,7 @@
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="Device">
+	<select id="findList" resultMap="deviceResultMap">
 		SELECT 
 			<include refid="deviceColumns"/>
 		FROM t_device a

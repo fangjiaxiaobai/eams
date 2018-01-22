@@ -72,6 +72,24 @@
                     }
                 }
             });
+
+            $("#addCPU").click(function(){
+                alert("add cpu");
+                $("#addCPUForm").show();
+                return false;
+            });
+            $("#addHardDriver").click(function(){
+                alert("add addHardDriver");
+                return false;
+            });
+            $("#addMemory").click(function(){
+                alert("add addMemory");
+                return false;
+            });
+            $("#addKeyBoard").click(function(){
+                alert("add addKeyBoard");
+                return false;
+            });
 		});
 	</script>
 </head>
@@ -108,8 +126,13 @@
                     <form:option value="" label="" />
                     <form:options itemValue="value" itemLabel="label" items="${fns:getDictList('yes_no')}" />
                 </form:select>
-			</div>
+                <%--<button class="btn-primary" value="添加" id="addCPU">添加CPU</button>--%>
+                <%--<button class="btn-primary" value="添加" id="addHardDriver">添加硬盘</button>--%>
+                <%--<button class="btn-primary" value="添加" id="addMemory">添加内存</button>--%>
+                <%--<button class="btn-primary" value="添加" id="addKeyBoard">添加键盘</button>--%>
+            </div>
 		</div>
+
 		<div class="control-group">
 			<label class="control-label">启用时间：</label>
 			<div class="controls">

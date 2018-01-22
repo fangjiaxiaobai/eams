@@ -7,6 +7,8 @@ import com.fxb.eams.modules.lab.entity.Lab;
 import com.fxb.eams.modules.sys.entity.User;
 import org.hibernate.validator.constraints.Length;
 import java.util.Date;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import com.fxb.eams.common.persistence.DataEntity;
@@ -27,7 +29,12 @@ public class Device extends DataEntity<Device> {
 	private String address;		// 具体位置信息
     private Lab lab;
     private User user;
-	
+
+    private Keyboard keyboard;
+    private List<CPU> cpus;
+    private List<Memory> memorys;
+    private List<HardDriver> hardDrivers;
+
 	public Device() {
 		super();
 	}
@@ -105,4 +112,37 @@ public class Device extends DataEntity<Device> {
     public Lab getLab(){
         return lab;
     }
+
+    public void setKeyboard(Keyboard keyboard){
+        this.keyboard=keyboard;
+    }
+
+    public Keyboard getKeyboard(){
+        return keyboard;
+    }
+
+    public void setCpus(List <CPU> cpus){
+        this.cpus=cpus;
+    }
+
+    public List <CPU> getCpus(){
+        return cpus;
+    }
+
+    public void setHardDrivers(List <HardDriver> hardDrivers){
+        this.hardDrivers=hardDrivers;
+    }
+
+    public List <HardDriver> getHardDrivers(){
+        return hardDrivers;
+    }
+
+    public void setMemorys(List <Memory> memorys){
+        this.memorys=memorys;
+    }
+
+    public List <Memory> getMemorys(){
+        return memorys;
+    }
+
 }

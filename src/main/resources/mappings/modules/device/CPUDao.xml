@@ -80,6 +80,18 @@
 			</otherwise>
 		</choose>
 	</select>
+
+	<select id="findCPUByDeviceId" resultType="CPU">
+		SELECT
+			<include refid="cPUColumns"/>
+		FROM t_cpu a
+		<include refid="cPUJoins"/>
+		<where>
+			a.del_flag = 0
+            and
+            a.device_id = #{device_id}
+		</where>
+	</select>
 	
 	<insert id="insert">
 		INSERT INTO t_cpu(

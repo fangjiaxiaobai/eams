@@ -72,7 +72,7 @@
                         ${device.ip}
                 </td>
                 <td>
-                        ${fns:getDictValue(device.completed, 'yes_no', '0' )}
+                        ${fns:getDictValue('${device.completed}', 'yes_no', '0' )}
                 </td>
                 <td><a href="${ctx}/device/device/form?id=${device.id}">
 					<fmt:formatDate value="${device.updateDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
